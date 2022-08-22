@@ -180,7 +180,7 @@ src               # 源码目录
 
 ## GitHub地址
 
-本篇源码[GitHub地址](https://github.com/CavinHuang/koa-starter/blob/start-1)
+本篇源码[GitHub地址](https://github.com/CavinHuang/koa-starter/tree/start-1)
 
 ## 博客
 
