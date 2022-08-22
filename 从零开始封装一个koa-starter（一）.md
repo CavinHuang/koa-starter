@@ -117,7 +117,7 @@ pnpm config set registry https://registry.npmmirror.com //切换淘宝源
 #### 项目初始化
 
 ```bash
-pnpm init -y
+pnpm init
 ```
 
 #### 安装项目依赖
@@ -127,3 +127,61 @@ pnpm i / pnpm install
 ```
 
 更多命令，请查看[pnpm官方文档](https://pnpm.io/zh/cli/install)
+
+### 开始项目初始化
+
+```bash
+pnpm init
+```
+
+### 安装基础依赖
+
+首先安装koa生态依赖 koa koa-router koa-body @koa/cors
+
+```bash
+pnpm i koa koa-router koa-body @koa/cors
+```
+
+安装开发依赖 typescript @types/node ts-node tsconfig-paths
+
+```bash
+pnpm i typescript @types/node ts-node tsconfig-paths -D
+```
+
+> 注: tsconfig-paths （[【GitHub地址】](https://github.com/dividab/tsconfig-paths)）是为了可以使用类似webpack和vite的路径alias的一个库，主要是为了方便开发时的路径管理，可以减少类似 `../../../` 的写法，其核心功能就是读取tsconfig文件，获取paths（别名）映射，覆写path._resolveFilename,匹配映射，解析获取真正的模块。
+
+### 初始化TS配置文件
+
+```bash
+npx tsc --init
+```
+
+开放一些ts的配置，目前用到的ts配置可以参考[tsconfig.json](https://github.com/CavinHuang/koa-starter/blob/main/tsconfig.json)
+
+### 建立基本文件目录
+
+```text
+src               # 源码目录
+│   app.ts        # 服务入口
+├───config        # 配置文件目录
+├───controller    # 控制器目录
+├───dto           # 数据传输校验
+├───middlewares   # 中间件目录
+├───models        # 数据模型目录
+├───server        # 应用服务组织及封装
+├───services      # 业务服务层
+├───types         # TS类型管理目录
+└───utils         # 工具目录
+```
+
+## 总结及下节预告
+
+本篇主要是对项目初始化工具、项目初始化、项目目录组织进行分析及初步搭建，也是万里长征的第一步，为后面的工作提供很好的基础，下一篇将会迈出关键性的一步，对整个应用服务进行一次完整封装，涉及koa启动、koa中间使用及封装、尝试封装一个日志工具、引入koa-router并进行自动导入的实现。
+
+## GitHub地址
+
+本篇源码[GitHub地址](https://github.com/CavinHuang/koa-starter/blob/start-1)
+
+## 博客
+
+欢迎关注小博客，没啥特点只有一些记录，还不完善，正在调整中[博客地址](https://mrhuang.site)
