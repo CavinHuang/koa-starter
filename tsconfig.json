@@ -35,7 +35,10 @@
     // 模块基本目录路径，./ 表示当前文件根
     "baseUrl": "./",                                     /* Specify the base directory to resolve non-relative module names. */
     // 路径映射, 别名到基于baseUrl的路径，便于vscode之类IDE(集成开发环境)识别
-    "paths": {},                                         /* Specify a set of entries that re-map imports to additional lookup locations. */
+    "paths": {
+      "@/*": ["src/*"],
+      "@config/*": ["src/config/*"]
+    },                                         /* Specify a set of entries that re-map imports to additional lookup locations. */
     // "rootDirs": [],                                   /* Allow multiple folders to be treated as one when resolving modules. */
     // "typeRoots": [],                                  /* Specify multiple folders that act like './node_modules/@types'. */
     // "types": [],                                      /* Specify type package names to be included without being referenced in a source file. */
