@@ -2,7 +2,6 @@ import Koa from 'koa';
 import koaBody from 'koa-body'
 import koaCors from '@koa/cors'
 
-import { corsAllow } from './corsAllow';
 import { requestError } from './requestError';
 import { requestLog } from './requestLogger';
 
@@ -12,9 +11,12 @@ import { requestLog } from './requestLogger';
  * @param app 
  */
 export const useMiddlewares = (app: Koa) => {
-  app.use(corsAllow())
-     .use(koaBody())
-     .use(koaCors())
+  app.use(koaBody())
+     .use(koaCors({
+      allowHeaders: 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With',
+      allowMethods: 'PUT, POST, GET, DELETE, OPTIONS',
+      origin: '*'
+     }))
      .use(requestLog())
      .use(requestError())
 }

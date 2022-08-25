@@ -65,5 +65,4 @@ export class Logger<T extends LoggerAdapter> {
     this.checkLevelHandler('fatal')
     this._logger.fatal.call(this._logger, message, ...args)
   }
-
 }

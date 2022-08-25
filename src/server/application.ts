@@ -1,22 +1,42 @@
 import Koa from 'koa'
 import { createServer, Server } from 'http'
 
-import { CONTROLLER_ROOT, LoggerNameSpace, NOT_FOUND_APPLICATION_CONFIG } from '@/constants'
+import { LoggerNameSpace, NOT_FOUND_APPLICATION_CONFIG } from '@/constants'
 import { ApplicationLogger, createLogger } from './logger'
 import { useMiddlewares } from './core/middlewares/useMiddlewares'
-import { AppContext, Config } from '@/types'
 import { loggerConfig } from '@/config'
 import { initRouter } from './router'
+
+import type { AppContext, Config } from '@/types'
 
 /**
  * 应用
  */
 export class Application {
+  /**
+   * koa实例
+   */
   public app: Koa
+
+  /**
+   * 服务配置
+   */
   public config: Config.Application
+  
+  /**
+   * 服务实例
+   */
   public server: Server
+
+  /**
+   * 日志实例
+   */
   public logger: ApplicationLogger
 
+  /**
+   * 构造函数
+   * @param config 
+   */
   constructor(config: Config.Application) {
     if (!config) throw TypeError(NOT_FOUND_APPLICATION_CONFIG)
     this.config = config
@@ -28,6 +48,9 @@ export class Application {
     this.mountRouter()
   }
 
+  /**
+   * 挂载中间件
+   */
   useMiddleware() {
     // 做一些对象的挂载方便后续使用
     this.app.use(async (ctx: AppContext, next) => {
@@ -54,6 +77,9 @@ export class Application {
     }
   }
 
+  /**
+   * 挂载路由
+   */
   mountRouter() {
     initRouter(this)
   }
