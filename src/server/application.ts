@@ -1,11 +1,12 @@
 import Koa from 'koa'
 import { createServer, Server } from 'http'
 
-import { LoggerNameSpace, NOT_FOUND_APPLICATION_CONFIG } from '@/constants'
-import { ApplicationLogger, createLogger, logger } from './logger'
+import { CONTROLLER_ROOT, LoggerNameSpace, NOT_FOUND_APPLICATION_CONFIG } from '@/constants'
+import { ApplicationLogger, createLogger } from './logger'
 import { useMiddlewares } from './core/middlewares/useMiddlewares'
 import { AppContext, Config } from '@/types'
 import { loggerConfig } from '@/config'
+import { initRouter } from './router'
 
 /**
  * 应用
@@ -21,7 +22,10 @@ export class Application {
     this.config = config
     this.app = new Koa()
     this.server = createServer(this.app.callback())
-    this.logger = createLogger({...loggerConfig})
+    this.logger = createLogger(loggerConfig)
+
+    this.useMiddleware()
+    this.mountRouter()
   }
 
   useMiddleware() {
@@ -29,7 +33,6 @@ export class Application {
     this.app.use(async (ctx: AppContext, next) => {
       ctx.$ = ctx.server = this
       ctx.logger = this.logger
-
       await next()
     })
 
@@ -49,5 +52,9 @@ export class Application {
     } catch (error) {
       this.logger.fatal(LoggerNameSpace.App, `服务http://${host}:${port}启动失败!`, error)
     }
+  }
+
+  mountRouter() {
+    initRouter(this)
   }
 }

@@ -7,5 +7,6 @@ export namespace Config {
     // https?: boolean
     host: string
     port: number
+    routerPrefix?: string
   }
 }
