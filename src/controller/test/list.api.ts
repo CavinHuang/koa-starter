@@ -1,18 +1,25 @@
 import { Response } from "@/server"
 import { BaseController } from "../BaseController"
-
-interface IParams {
-  name: string
-}
+import { Post, Get } from '@/server'
+import { AppContext } from '@/types';
 
 /**
- * 测试api，请求地址：router.prefix + /test/list
+ * 测试api
  */
-export default class Test extends BaseController{
-  
-  public method = this.METHODS.GET
-  
-  public handler<IParams>(params: IParams) {
-    return Response.success(params, '成功')
+export default class Test extends BaseController {
+
+  @Post('/testPost')
+  public testPost(ctx: AppContext) {
+    return Response.success(ctx.request.body)
+  }
+
+  @Get('/testGet')
+  public testGet(ctx: AppContext) {
+    return Response.success(ctx.request.query)
+  }
+
+  @Get('/test/get')
+  public test2path () {
+    return Response.success('success')
   }
 }
