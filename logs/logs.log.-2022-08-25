@@ -1,0 +1,117 @@
+[32m[2022-08-25T11:10:48.917] [16424] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:12:49.273] [7496] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:12:56.517] [18744] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:14:27.345] [1416] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:14:53.731] [16808] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:19:11.191] [2300] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:19:11.262] [2300] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:19:16.894] [16884] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:19:16.960] [16884] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:19:54.593] [10236] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:19:54.658] [10236] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:20:33.400] [16424] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:20:33.467] [16424] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:21:01.543] [14464] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:21:01.610] [14464] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:21:39.728] [18696] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:21:39.799] [18696] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:22:47.083] [14604] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:22:47.149] [14604] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:23:21.366] [19088] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:23:21.429] [19088] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:23:43.301] [3524] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:23:43.373] [3524] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:23:46.335] [3524] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:23:46 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {}
+    request body: {}
+    <======
+    response body: undefined
+  
+[32m[2022-08-25T11:24:04.604] [1812] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:24:04.673] [1812] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:25:40.996] [2176] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:25:41.064] [2176] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{test/list}
+[32m[2022-08-25T11:26:23.940] [18892] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:26:24.004] [18892] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{/test/list}
+[32m[2022-08-25T11:26:25.809] [18892] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:26:25 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {}
+    request body: {}
+    <======
+    response body: {"data":null,"code":0,"message":"没有你要访问的内容"}
+  
+[32m[2022-08-25T11:27:16.155] [8324] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:27:16.225] [8324] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{/test/list}
+[32m[2022-08-25T11:27:29.927] [4912] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:27:29.993] [4912] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{/test/list}
+[32m[2022-08-25T11:27:32.023] [4912] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:27:32 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {}
+    request body: {}
+    <======
+    response body: {"data":{},"code":1,"message":"成功"}
+  
+[32m[2022-08-25T11:27:42.758] [4912] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:27:42 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {"name":"1","b":"2"}
+    request body: {}
+    <======
+    response body: {"data":{"name":"1","b":"2"},"code":1,"message":"成功"}
+  
+[32m[2022-08-25T11:27:58.822] [4912] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:27:58 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {"name":"1","b":"2"}
+    request body: {}
+    <======
+    response body: {"data":{"name":"1","b":"2"},"code":1,"message":"成功"}
+  
+[32m[2022-08-25T11:28:07.980] [4912] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:28:07 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {"name":"1","b":"2"}
+    request body: {}
+    <======
+    response body: {"data":{"name":"1","b":"2"},"code":1,"message":"成功"}
+  
+[32m[2022-08-25T11:28:27.957] [13208] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T11:28:28.023] [13208] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{/test/list}
+[32m[2022-08-25T11:28:32.824] [13208] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 11:28:32 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {"name":"1","b":"2"}
+    request body: {}
+    <======
+    response body: {"data":{"name":"1","b":"2"},"code":1,"message":"成功"}
+  
+[32m[2022-08-25T17:05:01.315] [4968] [INFO][39m - Application 服务已运行在http://127.0.0.1:4001 ✔ 
+[32m[2022-08-25T17:05:01.379] [4968] [INFO][39m - Application ✔ 加载 ~[HTTP接口]~{get}~{/test/list}
+[32m[2022-08-25T17:05:28.511] [4968] [INFO][39m - 
+    ======>
+    timestamp: Thu Aug 25 2022 17:05:28 GMT+0800 (中国标准时间)
+    request method: GET
+    request url: /api/test/list
+    request query: {"name":"1","b":"2"}
+    request body: {}
+    <======
+    response body: {"data":{"name":"1","b":"2"},"code":1,"message":"成功"}
+  

@@ -5,9 +5,10 @@ import { LoggerNameSpace, NOT_FOUND_APPLICATION_CONFIG } from '@/constants'
 import { ApplicationLogger, createLogger } from './logger'
 import { useMiddlewares } from './core/middlewares/useMiddlewares'
 import { loggerConfig } from '@/config'
-import { initRouter } from './router'
+import { importController } from './router'
 
 import type { AppContext, Config } from '@/types'
+import router from './router/router'
 
 /**
  * 应用
@@ -44,8 +45,9 @@ export class Application {
     this.server = createServer(this.app.callback())
     this.logger = createLogger(loggerConfig)
 
-    this.useMiddleware()
+    importController()
     this.mountRouter()
+    this.useMiddleware()
   }
 
   /**
@@ -81,6 +83,11 @@ export class Application {
    * 挂载路由
    */
   mountRouter() {
-    initRouter(this)
+    this.app.use(async (ctx: AppContext, next) => {
+      ctx.$ = this
+      ctx.server = this
+      await next()
+    })
+    this.app.use(router.routes()).use(router.allowedMethods())
   }
 }

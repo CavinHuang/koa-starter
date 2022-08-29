@@ -1,2 +1,2 @@
 export * from './router'
-export * from './initRouter'
+export * from './importCtrl'

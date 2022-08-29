@@ -1,4 +1,4 @@
-import { Response } from "@/server"
+import { Controller, Response } from "@/server"
 import { BaseController } from "../BaseController"
 import { Post, Get } from '@/server'
 import { AppContext } from '@/types';
@@ -6,6 +6,7 @@ import { AppContext } from '@/types';
 /**
  * 测试api
  */
+@Controller('/test')
 export default class Test extends BaseController {
 
   @Post('/testPost')

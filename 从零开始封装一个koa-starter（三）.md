@@ -331,7 +331,8 @@ export default class Test extends BaseController {
 controller通常我们把它定义为一个业务模块的入口，`@Controller`就是标识模块的入口path
 
 根据装饰器的特点，先执行方法装饰器，再执行类装饰器，我们在上面已经引入了方法装饰器，在执行类装饰器的时候，相关的信息已经添加至方法的元数据。然后类的装饰器的参数就是构造函数，类上的方法在存在构造函数的 prototype 上，所以我们在类装饰器中，通过参数同样可以取得定义在方法上的元数据，包括请求方法、请求路径，还有方法本身。
-一个最基本的路由定义为：
+
+一个最基本的路由定义为, 这三个信息都可以拿到，所以在这里就可以完成路由注册。
 
 ```typescript
 router[method](path, handler)
@@ -341,10 +342,13 @@ router[method](path, handler)
 
 ```typescript
 import 'reflect-metadata'
-import router from '@/server/router'
-import { MEATADATA_TAGS } from '../constants'
+import router from '@/server/router/router'
+import { logger, Response } from '@/server'
+import { AppContext } from '@/types'
+import { Next } from 'koa'
+import { isDev } from '@/config'
 
-export function controller(root: string) {
+export function Controller(root: string) {
   return function (target: new (...args: any[]) => any) {
     const handlerKeys = Object.getOwnPropertyNames(target.prototype).filter(
       key => key !== 'constructor'
@@ -362,7 +366,16 @@ export function controller(root: string) {
       if (path && method) {
         const fullPath = root === '/' ? path : `${root}${path}`
         // 加载一些前置公共中间件
-        router[method](fullPath, handler)
+        ;(router as any)[method](fullPath, async (ctx: AppContext, next: Next) => {
+            try {
+              const result = await handler(ctx)
+              ctx.body = result
+            } catch (e) {
+              console.log(e)
+              const err = e as Error
+              ctx.body = Response.error(err.message, isDev ? err.stack : null, 500)
+            }
+        })
         // 加载一些后置公共中间件
 
         // 打一条日志
@@ -371,18 +384,154 @@ export function controller(root: string) {
     })
   }
 }
-
 ```
 
+接下来我们只需要把所有的controller文件做一次导入即可，删除之前的`server/router/initRouter.ts`，新建`importCtrl.ts`:
 
+```typescript
+import { isDev } from '@/config'
+import { CONTROLLER_ROOT } from '@/constants'
+import { readdirRecursive } from '@/utils'
+import path from 'path'
 
+const appendExt = isDev ? '.api.ts' : '.api.js'
+
+export const importController = async () => {
+  const filesAPP = readdirRecursive(CONTROLLER_ROOT)
+  console.log(filesAPP)
+  await filesAPP.filter((file) => file.endsWith(appendExt)).forEach(async(file) => {
+    const filePath = path.join(CONTROLLER_ROOT, file)
+    await import(filePath)
+  })
+}
+```
+
+重新修改`application.ts`，去除之前的路由加载方法，并把controller导入方法加上，并初始化路由挂载：
+
+```typescript
+import Koa from 'koa'
+import { createServer, Server } from 'http'
+
+import { LoggerNameSpace, NOT_FOUND_APPLICATION_CONFIG } from '@/constants'
+import { ApplicationLogger, createLogger } from './logger'
+import { useMiddlewares } from './core/middlewares/useMiddlewares'
+import { loggerConfig } from '@/config'
+import { importController } from './router'
+
+import type { AppContext, Config } from '@/types'
+import router from './router/router'
+
+/**
+ * 应用
+ */
+export class Application {
+  /**
+   * koa实例
+   */
+  public app: Koa
+
+  /**
+   * 服务配置
+   */
+  public config: Config.Application
+  
+  /**
+   * 服务实例
+   */
+  public server: Server
+
+  /**
+   * 日志实例
+   */
+  public logger: ApplicationLogger
+
+  /**
+   * 构造函数
+   * @param config 
+   */
+  constructor(config: Config.Application) {
+    if (!config) throw TypeError(NOT_FOUND_APPLICATION_CONFIG)
+    this.config = config
+    this.app = new Koa()
+    this.server = createServer(this.app.callback())
+    this.logger = createLogger(loggerConfig)
+
+    importController()
+    this.mountRouter()
+    this.useMiddleware()
+  }
+
+  /**
+   * 挂载中间件
+   */
+  useMiddleware() {
+    // 做一些对象的挂载方便后续使用
+    this.app.use(async (ctx: AppContext, next) => {
+      ctx.$ = ctx.server = this
+      ctx.logger = this.logger
+      await next()
+    })
+
+    // 挂载中间件
+    useMiddlewares(this.app)
+  }
+
+  /**
+   * 启动服务
+   */
+  start() {
+    const { host, port } = this.config
+    try {
+      this.server.listen(port, host, () => {
+        this.logger.info(LoggerNameSpace.App, `服务已运行在http://${host}:${port}`, '✔ ')
+      })
+    } catch (error) {
+      this.logger.fatal(LoggerNameSpace.App, `服务http://${host}:${port}启动失败!`, error)
+    }
+  }
+
+  /**
+   * 挂载路由
+   */
+  mountRouter() {
+    this.app.use(async (ctx: AppContext, next) => {
+      ctx.$ = this
+      ctx.server = this
+      await next()
+    })
+    this.app.use(router.routes()).use(router.allowedMethods())
+  }
+}
+```
+
+启动服务：`pnpm dev`，此时可以看到如下日志：
+
+```text
+[2022-08-29T09:40:47.691] [20972] [INFO] - Application 服务已运行在http://127.0.0.1:4001 ✔
+[2022-08-29T09:40:47.790] [20972] [WARN] - ✔ 加载 ~[HTTP接口]~{post}~{/test/testPost}
+[2022-08-29T09:40:47.791] [20972] [WARN] - ✔ 加载 ~[HTTP接口]~{get}~{/test/testGet}
+[2022-08-29T09:40:47.791] [20972] [WARN] - ✔ 加载 ~[HTTP接口]~{get}~{/test/test/get}
+```
+
+接口已经全部加载进来了，访问: `http://127.0.0.1:4001/api/test/test/get?name=1&b=2` 可见返回：
+
+```json
+{
+    "data": "success",
+    "code": 1,
+    "message": "成功"
+}
+```
 
 ## 总结与预告
 
-本节主要是熟悉并使用了koa、以及koa插件机制，并完成了koa的应用封装，封装并使用了多个中间件，实现简单的路由自动注入。下一篇将为整个应用引入typescript装饰器，详解typescript的装饰器使用方式，并为我们的koa路由自动注入改造成装饰器方式。
+本篇主要内容点如下：
 
+- 熟悉typescript的装饰器，分别熟悉了类装饰器、方法装饰器、属性装饰器以及参数装饰器；
+- 熟悉了reflect-metadata这个仓库的作用，并介绍了它的api;
+- 基于装饰器实现了请求方法装饰器、控制器装饰器，并基于此实现路由的自动注入。
 
-这三个信息都可以拿到，所以在这里就可以完成路由注册。
+下篇将会是本系列文章的重点，将进一步深入到IOC容器、依赖注入和控制反转这些设计理念中，并且将基于这些设计思想，重新封装我们的路由，并实现service依赖注入，service装饰器、请求参数装饰器、请求体装饰器、请求params装饰器、并引入`type-orm`，实现数据库实体自动注入。并且实现简单的IOC容器，解释容器的作用。
 
 ## GitHub地址
 
@@ -391,3 +540,11 @@ export function controller(root: string) {
 ## 博客
 
 欢迎关注小博客，没啥特点只有一些记录，还不完善，正在调整中[博客地址](https://mrhuang.site)
+
+## 系列地址
+
+[从零开始实现一个koa-starter（三）](http://mrhuang.site/post/backend/node/implement-a-koa-starter-from-scratch-3.html)
+
+[从零开始实现一个koa-starter（二）](http://mrhuang.site/post/backend/node/implement-a-koa-starter-from-scratch-2.html)
+
+[从零开始实现一个koa-starter（一）](http://mrhuang.site/post/backend/node/implement-a-koa-starter-from-scratch-1.html)

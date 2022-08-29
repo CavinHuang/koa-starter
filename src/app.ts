@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { application } from '@/config'
 import { Application } from './server'
 
